@@ -1,0 +1,33 @@
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.springframework.org/schema/beans"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd" >
+<bean class="org.springframework.jdbc.datasource.DriverManagerDataSource" id="dataSource">
+<property value="org.h2.Driver" name="driverClassName"/>
+<property value="jdbc:h2:tcp://localhost/~/shopcart" name="url"/>
+<property value="sa" name="username"/>
+<property value="" name="password"/>
+</bean>
+<bean class="org.springframework.orm.hibernate5.LocalSessionFactoryBean" id="sessionFactory">
+<property name="dataSource" ref="dataSource"/>
+<property name="hibernateProperties">
+<props>
+<prop key="hibernate.dialect">org.hibernate.dialect.H2Dialect</prop>
+<prop key="hibernate.hbm2ddl.auto">update</prop>
+<prop key="hibernate.show_sql">true</prop>
+<prop key="hibernate.format_sql">true</prop>
+</props>
+</property>
+<property name="packagesToScan">
+<list>
+<value>com.niit.ShoppingCart.controller</value>
+<value>com.niit.ShoppingCart.DAO</value>
+<value>com.niit.ShoppingCart.model</value>
+</list>
+</property> 
+</bean>
+<bean class="org.springframework.orm.hibernate5.HibernateTransactionManager" id="transactionManager">
+<property name="sessionFactory" ref="sessionFactory"/>
+</bean>
+<bean class="org.springframework.web.multipart.commons.CommonsMultipartResolver" id="multipartResolver">
+<property value="10240000" name="maxUploadSize"/>
+</bean>
+</beans>
